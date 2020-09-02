@@ -1,0 +1,85 @@
+/* On all the three switches */
+enable
+conf t
+vlan 10
+name Admin
+vlan 20
+name Accounts
+vlan 30
+name HR
+vlan 40
+name Voice
+vlan 99
+name Management
+vlan 100
+name Native
+exit
+
+/* SWB */
+interface f0/1
+switchport mode access
+switchport access vlan 10
+interface f0/2
+swichport mode access
+switchport access vlan 20
+interface f0/3
+switchport mode access
+switchport access vlan 30
+exit
+
+/* SWC */
+interface f0/1
+swichport mode access
+switchport access vlan 10
+interface f0/2
+swichport mode access
+switchport access vlan 20
+interface f0/3
+switchport mode access
+switchport access vlan 30
+interface f0/4
+switchport mode access
+switchport access vlan 10
+exit
+
+/* SWC */
+interface f0/4
+mls qos trust cos
+switchport voice vlan 40
+exit
+
+/* SWA */
+interface vlan 99
+ip address 192.168.99.252 255.255.255.0
+no shut
+exit
+
+/* SWB */
+interface vlan 99
+ip address 192.168.99.253 255.255.255.0
+no shut
+exit
+
+/* SWC */
+interface vlan 99
+ip address 192.168.99.254 255.255.255.0
+no shut
+exit
+
+/* SWA and SWB */
+interface g0/1
+switchport mode trunk
+switchport nonegotiate
+switchport trunk native vlan 100
+exit
+
+/* SWA */
+interface g0/2
+switchport mode dynamic desirable
+switchport trunk native vlan 100
+exit
+
+/* SWC */
+interface g0/2
+switchport trunk native vlan 100
+exit

@@ -1,0 +1,34 @@
+/* S1 */
+enable
+conf t
+vlan 10
+name Faculty/Staff
+vlan 20
+name Students
+vlan 30
+name Guest(Default)
+vlan 99
+name Management&Native
+vlan 150
+name VOICE
+exit
+
+/* Use the same commands on S2 and S3 */
+
+/* S2 */
+interface f0/11
+switchport mode access
+switchport access vlan 10
+interface f0/18
+switchport mode access
+switchport access vlan 20
+interface f0/6
+switchport mode access
+switchport access vlan 30
+
+/* use the same commands on S3 */
+
+/* S3 */
+interface f0/11
+mls qos trust cos
+switchport voice vlan 150

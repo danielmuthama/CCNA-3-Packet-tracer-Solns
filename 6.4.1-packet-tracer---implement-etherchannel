@@ -1,0 +1,74 @@
+/* SWA */
+en
+conf t
+int range f0/21-22, g0/1-2
+switchport mode trunk
+exit
+
+/* SWB */
+en
+conf t
+int range f0/23-24, g0/1-2
+switchport mode trunk
+exit
+
+/* SWC */
+en
+conf t
+int range f0/21-24
+switchport mode trunk
+exit
+
+/* SWA */
+int range g0/1-2
+shut
+channel-group 1 mode desirable
+no shut
+exit
+int port-channel 1
+switchport mode trunk
+exit
+int range f0/21-22
+shut
+channel-group 2 mode active
+no shut
+exit
+int port-channel 2
+switchport mode trunk
+exit
+
+/* SWB*/
+int range g0/1-2
+shut
+channel-group 1 mode desirable
+no shut
+exit
+int port-channel 1
+switchport mode trunk
+exit
+int range f0/24-23
+shut
+channel-group 3 mode active
+no shut
+exit
+int port-channel 3
+switchport mode trunk
+exit
+
+/* SWC */
+int range f0/21-22
+shut
+channel-group 2 mode active
+no shut
+exit
+int port-channel 2
+switchport mode trunk
+exit
+int range f0/23-24
+shut
+channel-group 3 mode active
+no shut
+exit
+int port-channel 3
+switchport mode trunk
+exit

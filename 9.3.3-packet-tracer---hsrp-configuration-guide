@@ -1,0 +1,22 @@
+/* R1 */
+en
+conf t
+int g0/1
+standby version 2
+standby 1 ip 192.168.1.254
+standby 1 priority 150
+standby 1 preempt
+
+/* R3 */
+en
+conf t
+int g0/0
+standby version 2
+standby 1 ip 192.168.1.254
+
+/* S1 and S2 */
+en
+conf t
+ip default-gateway 192.168.1.254
+
+/* configure manually the default gateway on the PCs */

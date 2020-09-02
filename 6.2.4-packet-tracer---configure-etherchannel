@@ -1,0 +1,83 @@
+/* S1*/
+enable
+conf t
+hostname S1
+interface range g0/1-2, f0/21-22
+switchport mode trunk
+switchport nonegotiate
+exit
+
+/* S2*/
+enable
+conf t
+hostname S2
+interface range g0/1-2, f0/23-24
+switchport mode trunk
+switchport nonegotiate
+exit
+
+/* S3*/
+enable
+conf t
+hostname S3
+interface range f0/21-24
+switchport mode trunk
+switchport nonegotiate
+exit
+
+/* S1 */
+interface range f0/21-22
+shutdown
+channel-group 1 mode desirable
+no shut
+exit
+interface port-channel 1
+switchport mode trunk
+exit
+
+/* S3 */
+interface range f0/21-22
+shutdown
+channel-group 1 mode desirable
+no shut
+exit
+interface port-channel 1
+switchport mode trunk
+exit
+
+/* S1 */
+interface range g0/1-2
+shut
+channel-group 2 mode active
+no shut
+interface port-channel 2
+switchport mode trunk
+exit
+
+/* S2 */
+interface range g0/1-2
+shut
+channel-group 2 mode active
+no shut
+interface port-channel 2
+switchport mode trunk
+exit
+interface range f0/23-24
+shut
+channel-group 3 mode passive
+no shut
+interface port-channel 3
+switchport mode trunk
+exit
+
+/* S3 */
+interface range f0/23-24
+shut
+channel-group 3 mode active
+no shut
+interface port-channel 3
+switchport mode trunk
+exit
+
+/* S1 */
+spanning-tree vlan 1 root primary

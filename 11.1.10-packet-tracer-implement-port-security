@@ -1,0 +1,11 @@
+/* S1 */
+en
+conf t
+interface range f0/1-2
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+exit
+interface range f0/3-24, g0/1-2
+shutdown

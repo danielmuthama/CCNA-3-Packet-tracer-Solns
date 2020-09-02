@@ -1,0 +1,44 @@
+/* S1, S2 and S3 */
+enable
+show vlan brief
+
+/* S1, S2 and S3 */
+conf t
+vlan 10
+name Red
+vlan 20
+name Blue
+vlan 30
+name Yellow
+exit
+
+/* S2 and S3 */
+interface range f0/1-8
+switchport mode access
+switchport access vlan 10
+interface range f0/9-16
+switchport mode access
+switchport access vlan 20
+interface range f0/17-24
+switchport mode access
+switchport access vlan 30
+exit
+
+/* S1 */
+interface g0/1
+switchport mode dynamic desirable
+interface g0/2
+switchport mode trunk
+switchport nonegotiate
+interface range g0/1-2
+switchport trunk native vlan 999
+
+/* S2 */
+interface g0/1
+switchport trunk native vlan 999
+
+/* S3 */
+interface g0/2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk native vlan 999

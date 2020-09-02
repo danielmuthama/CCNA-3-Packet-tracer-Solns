@@ -1,0 +1,68 @@
+/* R1 */
+enable
+conf t
+interface g0/0
+ip address 172.17.25.2 255.255.255.252
+no shut
+exit
+interface g0/1.10
+encapsulation dot1q 10
+ip address 172.17.10.1 255.255.255.0
+exit
+interface g0/1.20
+encapsulation dot1q 20
+ip address 172.17.20.1 255.255.255.0
+exit
+interface g0/1.30
+encapsulation dot1q 30
+ip address 172.17.30.1 255.255.255.0
+exit
+interface g0/1.88
+encapsulation dot1q 88 native
+ip address 172.17.88.1 255.255.255.0
+exit
+interface g0/1.99
+encapsulation dot1q 99
+ip address 172.17.99.1 255.255.255.0
+exit
+interface g0/1
+no shut
+exit
+
+/* S1 */
+enable
+conf t
+vlan 10
+name Faculty/Staff
+vlan 20
+name Students
+vlan 30
+name Guest(Default)
+vlan 88
+name Native
+vlan 99
+name Management
+exit
+interface range f0/11-17
+switchport mode access
+switchport access vlan 10
+exit
+interface range f0/18-24
+switchport mode access
+switchport access vlan 20
+exit
+interface range f0/6-10
+switchport mode access
+switchport access vlan 30
+exit
+interface g0/1
+switchport mode trunk
+switchport trunk native vlan 88
+exit
+interface vlan 99
+ip address 172.17.99.10 255.255.255.0
+exit
+ip default-gateway 172.17.99.1
+interface range f0/1-5, g0/2
+shutdown
+exit

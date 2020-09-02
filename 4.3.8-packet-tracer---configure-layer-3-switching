@@ -1,0 +1,52 @@
+/* MLS */
+enable
+conf t
+interface g0/2
+no switchport
+ip address 209.165.200.225 255.255.255.252
+exit
+vlan 10
+name Staff
+vlan 20
+name Student
+vlan 30
+name Faculty
+exit
+interface vlan 10
+ip address 192.168.10.254 255.255.255.0
+interface vlan 20
+ip address 192.168.20.254 255.255.255.0
+interface vlan 30
+ip address 192.168.30.254 255.255.255.0
+exit
+interface vlan 99
+ip address 192.168.99.254 255.255.255.0
+interface g0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk encapsulation dot1q
+exit
+
+/* S1 */
+enable
+conf t
+interface g0/1
+switchport mode trunk
+switchport trunk native vlan 99
+exit
+
+/* MLS */
+ip routing
+ipv6 unicast-routing
+interface vlan 10
+ipv6 address 2001:db8:acad:10::1/64
+exit
+interface vlan 20
+ipv6 address 2001:db8:acad:20::1/64
+exit
+interface vlan 30
+ipv6 address 2001:db8:acad:30::1/64
+exit
+interface g0/2
+ipv6 address 2001:db8:acad:a::1/64
+exit

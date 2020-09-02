@@ -1,0 +1,62 @@
+/* S2 */
+enable
+conf t
+interface port-channel 2
+switchport mode trunk
+exit
+interface port-channel 3
+switchport mode trunk
+exit
+interface port-channel 6
+switchport mode trunk
+exit
+
+/* S3 */
+enable
+conf t
+int range g0/1-2
+shut
+no channel-group 1
+channel-group 1 mode active
+no shut
+int port-channel 1
+switchport mode trunk
+exit
+
+int range f0/23-24
+shut
+no channel-group 4
+channel-group 4 mode active
+int port-channel 4
+switchport mode trunk
+exit
+
+int range f0/21-22
+shut
+no channel-group 6
+channel-group 6 mode active
+no shut
+int port-channel 6
+switchport mode trunk
+exit
+
+/* S4 */
+enable
+conf t
+int range f0/21-24
+shut
+no channel-group 4
+exit
+int range f0/21-22
+channel-group 5 mode active
+no shut
+exit
+int port-channel 5
+switchport mode trunk
+exit
+int range f0/23-24
+channel-group 4 mode active
+no shut
+int port-channel 4
+switchport mode trunk
+exit

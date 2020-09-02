@@ -1,0 +1,33 @@
+/*ON PC1/*
+/*Enter command prompt*/
+
+telnet 10.10.10.2
+cisco
+
+/*you have access on the switch now*/
+enable
+cisco
+copy running-config startup-config
+conf t
+service password-encryption
+exit
+show running-config
+conf t
+ip domain-name netacad.pka
+crypto key generate rsa
+1024
+
+
+username administrator secret cisco
+line vty 0 15
+transport input ssh
+no password
+login local
+end
+exit
+
+/*You're now on the PC*/
+ssh /*to try to connect to the switch via ssh*/
+ssh -l adminstrator 10.10.10.2
+
+/*now you connect to the switch via ssh*/

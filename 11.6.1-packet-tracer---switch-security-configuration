@@ -1,0 +1,51 @@
+/* sw-1 and sw-2 */
+en
+conf t
+vlan 100
+name Native
+int range g0/1-2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk native vlan 100
+exit
+
+/* sw-1 */
+vlan 999
+name BlackHole
+exit
+int range fa0/3-9, fa0/11-23
+shutdown
+switchport mode access
+switchport access vlan 999
+exit
+int range fa0/1-2, fa0/10, fa0/24, g0/1-2
+switchport port-security
+switchport port-security maximum 4
+exit
+int fa0/1
+switchport port-security mac-address 0010.11E8.3CBB
+exit
+int range fa0/1-2, fa0/10, fa0/24, g0/1-2
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+exit
+ip dhcp snooping
+int range g0/1-2
+ip dhcp snooping trust
+exit
+int range f0/1-24
+ip dhcp snooping limite rate 5
+exit
+
+/* sw-2 */
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,99
+
+/* sw-1 */
+int range fa0/1-2, fa0/10, fa0/24
+switchport mode access 
+spanning-tree portfast
+spanning-tree bpduguard enable
+
+/* sw-2 */
+spanning-tree portfast default

@@ -1,0 +1,25 @@
+/* S1, S2 and S3 */
+enable
+show vlan
+
+/* S1 */
+enable
+conf t
+interface range g0/1-2
+switchport mode trunk
+switchport trunk native vlan 99
+end
+
+/* S2 */
+show interface trunk
+conf t
+interface g0/1
+switchport trunk native vlan 99
+end
+
+/* S3 */
+show interface trunk
+conf t
+interface g0/2
+switchport trunk native vlan 99
+end

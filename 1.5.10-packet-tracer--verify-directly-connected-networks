@@ -1,0 +1,35 @@
+/* On R1 */
+cisco
+enable
+class
+show ip interface brief | exclude unassigned
+conf t
+int s0/1/0
+no ip address 209.165.200.229 255.255.255.252
+ip address 209.165.200.225 255.255.255.252
+int g0/0/0
+no shut
+end
+show ip route | begin Gate
+show interface | include Desc|conn
+show interfaces g0/0/0 | include duplex
+
+/* On pc1 */
+/*Desktop > command prompt */
+ping 172.16.20.138
+ping 64.100.1.10
+
+/* On R2 */
+cisco
+enable
+class
+show ipv6 int brief
+conf t
+int g0/0/1
+no ipv6 address 2001:db8:c0de:14::1/64
+ipv6 address 2001:db8:c0de:13::1/64
+int s0/1/1
+no ipv6 address fe80::2d0:bcff:fe32:7c24 link-local
+ipv6 address fe80::2 link-local
+no shut
+end

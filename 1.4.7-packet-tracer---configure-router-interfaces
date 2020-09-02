@@ -1,0 +1,54 @@
+/* Click on R1 */
+cisco
+enable
+class
+conf t
+int g0/0
+ip address 172.16.20.1 255.255.255.128
+no shut
+int g0/1
+ip address 172.16.20.129 255.255.255.128
+no shut
+
+/*enter to PC1*/
+/*desktop*/
+/* ip configuration */
+ip address 172.16.20.10
+subnet mask 255.255.255.128
+default gateway 172.16.20.1
+
+/*enter to PC2*/
+ip address 172.16.20.138
+subnet mask 255.255.255.128
+default gateway 172.16.20.129
+
+/*on pc1 */
+ping 172.16.20.138
+ping 64.100.1.10
+
+/* click on R2 */
+cisco
+enable
+class
+conf t
+ipv6 unicast-routing
+int g0/0
+ipv6 address 2001:db8:c0de:12::1/64
+no shut
+int g0/1
+ipv6 address 2001:db8:c0de:13::1/64
+no shut
+
+/* enter to pc3 */
+ipv6 address 2001:db8:c0de:12::a
+prefix length 64
+default gateway fe80::2
+
+/* enter to pc4 */
+ipv6 address 2001:db8:c0de:13::a
+prefix length 64
+default gateway fe80::2
+
+/* on pc3 */
+ping 2001:db8:c0de:13::a
+ping 2001:db8:100:1::a
